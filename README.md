@@ -7,7 +7,7 @@ Libraries and utilities in C# to interact with JSON
 
 This class contain two simple extensions to parse Datatables into a json object array or a javascript array.
 
-```cs
+```csharp
   
   DataTable dt = new DataTable(); 
   
