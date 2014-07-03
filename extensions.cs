@@ -46,5 +46,38 @@ namespace Kartessian
             }
             return new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(rows);
         }
+        
+        public static string ToGEOJson(this DataTable dt, string latColumn, string lngColumn)
+        {
+            StringBuilder result = new StringBuilder();
+            StringBuilder line;
+
+            foreach (DataRow r in dt.Rows)
+            {
+                line = new StringBuilder();
+
+
+                foreach (DataColumn col in dt.Columns)
+                {
+                    if (col.ColumnName != latColumn && col.ColumnName != lngColumn)
+                    {
+                        string cValue = r[col].ToString();
+                        line.Append(",\"" + col.ColumnName + "\":\"" + cValue.Replace("\"","\\\"") + "\"");
+                    }
+
+                }
+
+                result.Append(
+                    ",{\"type\":\"Feature\",\"geometry\": {\"type\":\"Point\", \"coordinates\": [" + r[lngColumn].ToString() + "," + r[latColumn].ToString() + "]},\"properties\":{" +
+                    line.ToString().Substring(1) + "}}");
+
+            }
+
+            string geojson = "{\"type\": \"FeatureCollection\",\"features\": [" +
+                result.ToString().Substring(1) + "]}";
+
+            return geojson;
+        }
+        
     }
 }
