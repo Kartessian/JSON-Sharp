@@ -43,3 +43,11 @@ jarray = [
         ]
         
 ```
+
+If you have latitude and longitude columns in your DataTable you can also generate a valid JSON respone
+
+```csharp
+
+  string geojson = dt.ToGeoJSON(latColumn, lngColumn);
+  
+```
