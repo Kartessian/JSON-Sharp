@@ -5,7 +5,7 @@ Libraries and utilities in C# to interact with JSON
 
 ### Extensions
 
-This class contain two simple extensions to parse Datatables into a json object array or a javascript array.
+This class contain three simple extensions to parse Datatables into a json object array or a javascript array.
 
 ```csharp
   
@@ -24,6 +24,8 @@ This class contain two simple extensions to parse Datatables into a json object 
   
   string jarray = dt.ToJavaScriptArray();
   
+  string condensed = dt.ToJsonTable();
+  
 ``` 
 
 The expected result:
@@ -38,11 +40,20 @@ json = [
         
 jarray = [
           ["john", "smith", 12, null],
-          ["paul", "simons", 13, "book"]
+          ["paul", "simons", 13, "book"],
           ["stuart", "lopez", 14, "movie"]
         ]
-        
+
+condensed = {columns: ["firstName", "lastName", "id", "type"],
+          data: [
+            ["paul", "simons", 13, "book"],
+            ["paul", "simons", 13, "book"],
+            ["stuart", "lopez", 14, "movie"]
+          ]
+
 ```
+
+The ToJsonTable method will return a json object with two root elements: "columns" that includes the name of the columns in the table in order of appearance, and "data", that is the same as the ToJavaScriptArray method.
 
 If you have latitude and longitude columns in your DataTable you can also generate a valid JSON respone
 
