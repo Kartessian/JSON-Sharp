@@ -79,5 +79,25 @@ namespace Kartessian
             return geojson;
         }
         
+        public static string ToJsonTable(this DataTable dt) {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (DataColumn column in dt.Columns)
+            {
+                sb.Append(",'" + column.ColumnName + "'");
+            }
+
+            List<object[]> data = new List<object[]>();
+            foreach(DataRow row in dt.Rows) {
+                data.Add(row.ItemArray);
+            }
+
+            System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+
+            string json = "{\"columns\":[" + sb.ToString().Substring(1) + "],\"data\":" + serializer.Serialize(data) + "}";
+
+            return json;
+        }
+        
     }
 }
